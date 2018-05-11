@@ -1,5 +1,22 @@
 import { h } from 'preact';
 
+export function substringHighlight(text, substring) {
+  return highlighted(text, findSubstringMatches(text, substring))
+}
+
+function findSubstringMatches(text, substring) {
+  if (substring.length === 0 || text.length < substring.length) return []
+  const matches = []
+  let i = 0
+  for (;;) {
+    i = text.indexOf(substring, i)
+    if (i === -1) return matches
+    const end = i + substring.length
+    matches.push([i, end - 1])
+    i = end
+  }
+}
+
 export function highlight (text, key, matches) {
   const matchesForKey = matches && matches.find((match) => match.key === key);
   return matchesForKey
